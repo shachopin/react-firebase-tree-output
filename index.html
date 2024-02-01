@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Hello Ojet!</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <!--my web apis are all https, but stupid browser still complains I have http api, so this is to disable that check -->
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1"
+    />
+    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
+
+    <!-- This is the main css file for the default Alta theme -->
+    <!-- injector:theme -->
+    <link rel="stylesheet" href="css/alta/8.0.0/web/alta.css" id="css" />
+    <!-- endinjector -->
+    <!-- this woff has to be from the local css /css/alta/8.0.0/web/fonts/JetFW_iconfont.woff, if you host it somewhere, won't fetch -->
+    <!-- This contains icon fonts used by the starter template -->
+    <link rel="stylesheet" href="css/demo-alta-site-min.css" type="text/css" />
+
+    <!-- This is where you would add any app specific styling -->
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBVADPQJgaIoq_uJGoL3o4UROQP2jbQz3I",
+        authDomain: "react-tree-simplified.firebaseapp.com",
+        databaseURL:
+          "https://react-tree-simplified-default-rtdb.firebaseio.com",
+        projectId: "react-tree-simplified",
+        storageBucket: "react-tree-simplified.appspot.com",
+        messagingSenderId: "661508442882",
+        appId: "1:661508442882:web:cfb3ec0fe9e26140a2101b",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <style></style>
+  </head>
+  <body class="oj-web-applayout-body">
+    <div id="sampleDemo" style="" class="demo-padding demo-container">
+      <div id="componentDemoContent" style="width: 1px; min-width: 100%">
+        <div
+          id="main"
+          class="oj-flex oj-flex-items-pad"
+          style="margin-top: 30px"
+        >
+          <div id="sunburst-container" class="oj-sm-10 oj-flex-item">
+            <oj-sunburst
+              node-defaults.label-display="rotated"
+              data="[[sunburstData]]"
+              animation-on-display="auto"
+              animation-on-data-change="auto"
+              drilling="on"
+              selection-mode="none"
+              style="
+                max-width: 1000px;
+                width: 100%;
+                height: 1000px;
+                margin: 0 auto;
+              "
+            >
+              <template slot="nodeTemplate">
+                <oj-sunburst-node
+                  label="[[$current.data.label]]"
+                  color="[[getColor($current.data.label)]]"
+                  value="1"
+                ></oj-sunburst-node>
+              </template>
+            </oj-sunburst>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="https://20191221-ojet-staging.netlify.com/js/libs/require/require.js"
+    ></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>

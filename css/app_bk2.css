@@ -1,0 +1,55 @@
+/*
+    Document   : override
+    Created on : <date>
+    Author     : <author>
+    Description:
+        This is where any of your application specific styles should be included
+*/
+
+label {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background-color:rgba(0, 0, 0, 0.75);
+  padding: 20px;
+}
+
+.title-bar h2, .title-bar span {
+  color: white;
+  font-size: 2rem;
+}
+
+label.oj-radio-label, label.oj-radio-label.oj-selected {
+  color: white;
+  font-size:1.5em;
+}
+
+#overlay demo-card {
+  margin-left: 160px;
+}
+
+#overlay demo-card .demo-card-front-side {
+  background-image: url('https://www.exabeam.com/wp-content/uploads/2019/06/EXA_Photo_Library_Building.png');
+}
+
+.oj-slider-container {
+  top: -10px;
+}
+
+#overlay > div.oj-sm-odd-cols-12 {
+  margin-bottom:20px;
+  margin-left:5%;
+  margin-right:5%;
+}
+
+fieldset div.oj-flex {
+  margin-bottom:20px;
+}
