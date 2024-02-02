@@ -82,13 +82,13 @@ require([
     
     const data = ko.observableArray([]);
     const firebaseJSONDataHandler = (snapObj) => {
-      return process(snapObj)
+      return recursionProcess(snapObj)
     }
-    const process = (snapObj) => {
+    const recursionProcess = (snapObj) => {
       let array = Object.values(snapObj);
       for (let arrayElement of array) {
         if ("items" in arrayElement) {
-          arrayElement.items = process(arrayElement.items);
+          arrayElement.items = recursionProcess(arrayElement.items);
         }
       }
       return array
@@ -100,11 +100,46 @@ require([
       keyAttributes: "label",
       childrenAttribute: "items",
     });
+    
+    var tooltipElem = document.createElement("div");  //this is one copy of variable in the scope instance - considered as closure
+
+    // Set a thick border for the tooltip
+    tooltipElem.style.borderWidth = "4px;";
+
+    // Add tooltip text and a pie chart
+    tooltipElem.innerHTML =
+      '<div style="float:left; padding: 10px 8px 10px 3px;">' +
+      '<pre style="font-weight:bold;color:#606060"></pre>' +
+      "</div>"
+
+    function tooltipFunction(tooltipContext) {   
+      var textElems = tooltipElem.children[0];
+      textElems.children[0].textContent = tooltipContext.itemData.desc;
+      return { insert: tooltipElem };
+    }
+    this.tooltipFunction = tooltipFunction.bind(this);
   }
 
   var viewModel = new ViewModel();
 
   Bootstrap.whenDocumentReady().then(function () {
     ko.applyBindings(viewModel, document.getElementById("main"));
+     $('#sunburst').dblclick(  //because single click has been hijacked by ojet sunburst to allow drilldown, so you have to use dblclick to go to external link
+      function(event) {
+          var nodeContext;
+          if (event.target.id !== 'sunburst')
+             nodeContext = $('#sunburst').ojSunburst('getContextByNode', event.target);
+
+          if (nodeContext){
+              var indices = nodeContext['indexPath'];
+              var node = $('#sunburst').ojSunburst('getNode', indices);
+              var url = node.tooltip; 
+              if(url) {
+                //go to that link
+                //window.location.href = url; //will override the current tab
+                window.open(url, '_blank');
+              }
+          }
+    });
   });
 });
