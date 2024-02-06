@@ -84,6 +84,7 @@ require([
     
     this.selectedSubject = ko.observable('programming');
     this.subjectNameChangeHandler = function(e) {
+      firebaseReaderAndWriter.disconnectPortionDataFromFirebase(`${e.detail.previousValue}/items`);
       firebaseReaderAndWriter.readDataFromFirebase(`${e.target.value}/items`, data, firebaseJSONDataHandler);
     };
     
