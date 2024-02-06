@@ -51,12 +51,18 @@
   </head>
   <body class="oj-web-applayout-body">
     <div id="sampleDemo" style="" class="demo-padding demo-container">
+      
       <div id="componentDemoContent" style="width: 1px; min-width: 100%">
         <div
           id="main"
-          class="oj-flex oj-flex-items-pad"
-          style="margin-top: -50px; justify-content: center;"
+          class="oj-flex oj-flex-items-pad main"
+          style=" align-items: center; flex-direction: column"
         >
+          <oj-combobox-one id="combobox1"  style="max-width:20em"
+                             options="{{subjectNamesDataProvider}}" 
+                             value="{{selectedSubject}}"
+                             on-value-changed="[[subjectNameChangeHandler]]">
+          </oj-combobox-one>
           <div id="sunburst-container" class="oj-sm-10 oj-flex-item">
             <oj-sunburst
               node-defaults.label-display="rotated"

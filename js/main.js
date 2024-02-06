@@ -62,6 +62,7 @@ require([
   "ojs/ojattributegrouphandler",
   "ojs/ojknockout",
   "ojs/ojsunburst",
+  'ojs/ojselectcombobox'
 ], function (
   oj,
   ko,
@@ -72,14 +73,21 @@ require([
   attributeGroupHandler
 ) {
   function ViewModel() {
-    var colorHandler = new attributeGroupHandler.ColorAttributeGroupHandler();
-    // colorHandler.addMatchRule('Headquarters', 'orange');
-    // colorHandler.addMatchRule('2nd Quartile', 'red');
-    // colorHandler.addMatchRule('3rd Quartile', '#2888C3');
-    this.getColor = function(label) { 
-      return colorHandler.getValue(label); 
+    //grab data from firebase for comboboxselector
+    const subjectNames = ko.observableArray([]);
+    this.subjectNamesDataProvider = new ArrayDataProvider(subjectNames, {keyAttributes: 'value'});
+    const firstLayerItemsDataHandler = data => Object.keys(data).map(key => ({
+      value: key, label: key
+    }));
+    firebaseReaderAndWriter.readDataFromFirebase("subjectList/items", subjectNames, firstLayerItemsDataHandler);
+    //grab data part ends
+    
+    this.selectedSubject = ko.observable('programming');
+    this.subjectNameChangeHandler = function(e) {
+      firebaseReaderAndWriter.readDataFromFirebase(`${e.target.value}/items`, data, firebaseJSONDataHandler);
     };
     
+    //grab data from firebase for sunburst
     const data = ko.observableArray([]);
     const firebaseJSONDataHandler = (snapObj) => {
       return recursionProcess(snapObj)
@@ -100,6 +108,15 @@ require([
       keyAttributes: "label",
       childrenAttribute: "items",
     });
+    //grab data part ends
+    
+    var colorHandler = new attributeGroupHandler.ColorAttributeGroupHandler();
+    // colorHandler.addMatchRule('Headquarters', 'orange');
+    // colorHandler.addMatchRule('2nd Quartile', 'red');
+    // colorHandler.addMatchRule('3rd Quartile', '#2888C3');
+    this.getColor = function(label) { 
+      return colorHandler.getValue(label); 
+    };
     
     var tooltipElem = document.createElement("div");  //this is one copy of variable in the scope instance - considered as closure
 
@@ -133,7 +150,7 @@ require([
           if (nodeContext){
               var indices = nodeContext['indexPath'];
               var node = $('#sunburst').ojSunburst('getNode', indices);
-              var url = node.tooltip; 
+              var url = node.tooltip;  //borrowed because short-desc="[[$current.data.link]]" on html, and you did custom tooltip on html anyway
               if(url) {
                 //go to that link
                 //window.location.href = url; //will override the current tab
