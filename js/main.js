@@ -135,6 +135,8 @@ require([
       return { insert: tooltipElem };
     }
     this.tooltipFunction = tooltipFunction.bind(this);
+    
+    this.pattern = ko.observable("smallChecker");
   }
 
   var viewModel = new ViewModel();
