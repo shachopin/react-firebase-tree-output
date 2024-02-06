@@ -11,8 +11,12 @@ define([],
             
             const resultArray = handler ? handler(data) : Object.values(data); 
             observableArray(resultArray);
-            observableArray.valueHasMutated();
+            observableArray.valueHasMutated(); //know why you ned this?
           });
+        };
+        
+        this.disconnectPortionDataFromFirebase = function(dataPath) { //know why you need this?
+          firebase.database().ref(dataPath).off();
         };
         
         this.writeToFirebase= function(dataPath, key, price, date) { 
