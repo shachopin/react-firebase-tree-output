@@ -131,10 +131,14 @@ require([
       "</div>"
 
     function tooltipFunction(tooltipContext) {   
+      if (!tooltipContext.itemData.desc) {
+        return;
+      }
       var textElems = tooltipElem.children[0];
       textElems.children[0].textContent = tooltipContext.itemData.desc;
       return { insert: tooltipElem };
     }
+    
     this.tooltipFunction = tooltipFunction.bind(this);
     
     this.pattern = ko.observable("smallChecker");
